@@ -1,39 +1,117 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Btn from '../../assets/img/button.svg';
-import Clock from '../../assets/img/clock.svg';
+import ItemMore from './itemMore';
 
-const Item = () => {
+const Item = ({ departure, arrival, status, flight }) => {
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isDeleyed, setIsisDeleyed] = useState(false)
 
   const openItem = () => {
     setIsOpen(!isOpen)
   }
+  const formatDate = (scheduled, expected) => {
+    const scheduletDateToFormat = new Date(scheduled);
+    const expextedDateToFormat = new Date(expected);
+    let day;
+    let year;
+    let month;
+
+    if (scheduletDateToFormat === expextedDateToFormat) {
+      day = scheduletDateToFormat.getDate();
+      year = scheduletDateToFormat.getFullYear();
+      month = scheduletDateToFormat.toLocaleString('de-de', { month: '2-digit' });
+    } else {
+      day = expextedDateToFormat.getDate();
+      year = expextedDateToFormat.getFullYear();
+      month = expextedDateToFormat.toLocaleString('de-de', { month: '2-digit' });
+    }
+
+    return `${day}/${month}/${year}`;
+  }
+
+  const formateTime = (date) => {
+    const dateToFormat = new Date(date);
+    let hour = dateToFormat.getHours();
+    hour = ("0" + hour).slice(-2);
+    let minutes = dateToFormat.getMinutes();
+    minutes = ("0" + minutes).slice(-2);
+
+    return `${hour}:${minutes}`;
+  }
+
+  const delay = (time1, time2) => {
+    let diff = new Date(time2).getTime() - new Date(time1).getTime();
+
+    if (diff > 0) {
+      setIsisDeleyed(true)
+      return diff;
+    }
+  }
+
+  const delayTime = (time1, time2) => {
+    const diff = new Date(time2).getTime() - new Date(time1).getTime();
+    let minutes = parseInt((diff / (1000 * 60)) % 60);
+    let hours = parseInt((diff / (1000 * 60 * 60)) % 24);
+
+    const checkHours = (h) => {
+      let hour;
+      if (h === 0) {
+        hour = '';
+      } else if (h < 10) {
+        hour = "0" + h + "h ";
+      } else {
+        hour = h;
+      }
+      return hour;
+    }
+
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+
+    if (diff > 0) {
+      return `${checkHours(hours)}${minutes}min`;
+    }
+  }
+
+  const durationFlight = (time1, time2) => {
+    let diff = new Date(time2).getTime() - new Date(time1).getTime();
+    let minutes = parseInt((diff / (1000 * 60)) % 60);
+    let hours = parseInt((diff / (1000 * 60 * 60)) % 24);
+
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+
+    return `${hours}h ${minutes}`;
+  }
+
+  useEffect(() => {
+    delay(departure.scheduledDepartureTime, departure.expectedDepartureTime)
+  })
 
   return (
     <div className="item">
       <div className="item__wrapper">
-        <p className="item__date">Outbound: 10/10/2020</p>
+        <p className="item__date">Outbound:{formatDate(departure.scheduledDepartureTime, departure.expectedDepartureTime)}</p>
         <div className="item__flight-wrapper">
           <div className="item__col-left item__col">
-            <p className="item__company">Wizz Air W62284</p>
-            <p className="item__status">Delayed (+03h 40min) </p>
+            <p className="item__company">{flight.company} {flight.number}</p>
+            <p className={isDeleyed ? "item__status item__status--delayed" : "item__status"}>{status} {isDeleyed ? `(+${delayTime(departure.scheduledDepartureTime, departure.expectedDepartureTime)})` : null}</p>
           </div>
           <div className="item__col-middle item__col">
             <div className="item__departure">
-              <span className="item__time bold">10:06</span>
-              <span className="item__airport-code">CRL</span>
+              <span className="item__time bold">{formateTime(departure.scheduledDepartureTime)}</span>
+              <span className="item__airport-code">{departure.airportCode}</span>
             </div>
             <div className="item__flight-duration-wrapper">
-              <p className="item__flight-duration">2h 10</p>
+              <p className="item__flight-duration">{durationFlight(departure.scheduledDepartureTime, arrival.scheduledArrivalTime)} </p>
               <div className="item__flight-duration-bar-wrapper">
                 <div className="item__flight-bar"></div>
                 <span className="item__flight-icon">&#9992;</span>
               </div>
             </div>
             <div className="item__arrive">
-              <span className="item__time bold">10:06</span>
-              <span className="item__airport-code">CRL</span>
+              <span className="item__time bold">{formateTime(arrival.scheduledArrivalTime)}</span>
+              <span className="item__airport-code">{arrival.airportCode}</span>
             </div>
           </div>
           <div className="item__col-right item__col">
@@ -41,41 +119,7 @@ const Item = () => {
           </div>
         </div>
         <div className={isOpen ? "item__item-more item__item-more--open" : "item__item-more"}>
-          <div className="item__item-more-wrapper">
-            <div className="item__item-more-row">
-              <p className="item__item-more-flight-nr">Wizz Air W62284</p>
-              <p className="item__item-more-flight-status">Status: Delayed </p>
-            </div>
-            <div className="item__item-more-row item__item-more-row-middle">
-              <div className="item__item-more-left">
-                <div className="item__item-more-bar"></div>
-              </div>
-              <div className="item__item-more-right">
-                <div className="item__item-more-row">
-                  <span className="item__item-more-time">10:06</span>
-                  <span className="item__item-more-airport-code">CTV</span>
-                  <span className="item__item-more-airport">London-Luton |</span>
-                  <span>Terminal: North</span>
-                </div>
-                <div className="item__item-more-row">
-                  <div className="item__item-more-time-icon-wrapper">
-                    <img className="item__item-more-clock" src={Clock} alt="clock" />
-                    <span className="item__item-more-duration">2h 10</span>
-                  </div>
-                </div>
-                <div className="item__item-more-row">
-                  <span className="item__item-more-time">10:06</span>
-                  <span className="item__item-more-airport-code">SFX</span>
-                  <span className="item__item-more-airport">Berlin-Schonefeld |</span>
-                  <span className="item__item-more-terminal">Terminal: North |</span>
-                  <span>Baggage belt: 18 </span>
-                </div>
-              </div>
-            </div>
-            <div className="item__item-more-row">
-              <span>Arrives: 11/03/2020 | 12:00</span>
-            </div>
-          </div>
+          <ItemMore isDeleyed={isDeleyed} departure={departure} arrival={arrival} status={status} flight={flight} formatDate={formatDate} formateTime={formateTime} durationFlight={durationFlight} />
         </div>
       </div>
     </div>
