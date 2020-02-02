@@ -1,0 +1,26 @@
+.details {
+  &__row {
+    min-height: 60px;
+    &:after {
+      content: "|";
+      display: inline-block;
+      margin: 0 10px;
+    }
+
+    &:last-child {
+      &:after {
+        display: none;
+      }
+    }
+  }
+
+  &__time {
+    margin-right: 30px;
+
+    &--delayed {
+      text-decoration: line-through;
+      margin-right: 10px;
+      color: $color-danger;
+    }
+  }
+}

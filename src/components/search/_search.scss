@@ -1,12 +1,7 @@
-.search-form {
-  margin-bottom: 100px;
-  margin-top: 50px;
-
-  &__form {
-    width: 300px;
-    position: relative;
-    margin: auto;
-  }
+.search {
+  width: 300px;
+  position: relative;
+  margin: 50px auto;
 
   &__input {
     font-size: 18px;
@@ -17,14 +12,15 @@
     border-radius: 5px;
     box-sizing: border-box;
     opacity: 0.7;
+    overflow: hidden;
 
     &:hover {
       opacity: 1;
-    }
 
-    &:hover~.search-form__bar {
-      transform: scale(1);
-      transition: 0.3s;
+      &~.search-form__bar {
+        transform: scale(1);
+        transition: 0.3s;
+      }
     }
 
     &:focus {
