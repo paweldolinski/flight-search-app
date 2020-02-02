@@ -1,7 +1,9 @@
 @import './variables';
+@import './base.scss';
 
-@import './global.scss';
 @import '../components/app/app';
-@import '../components//searchForm/searchForm';
-@import'../components/item/item.scss';
-@import '../components//item/itemMore/itemMore';
+@import '../components//search/search';
+@import'../components/item/item';
+@import '../components//item/more';
+@import '../components/item/details';
+@import '../components/clock/clock';

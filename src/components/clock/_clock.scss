@@ -1,0 +1,17 @@
+.clock {
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    color: $color-secondary;
+  }
+
+  &__clock {
+    width: 14px;
+    margin-right: 10px;
+  }
+
+  &__duration {
+    position: relative;
+    top: 1px;
+  }
+}
