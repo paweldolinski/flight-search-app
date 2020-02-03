@@ -1,21 +1,24 @@
 import React from "react";
 import Details from "./Details";
 import Clock from "../clock";
+import { useSelector } from "react-redux";
 
-const More = ({
-  flight,
-  isDeleyed,
-  status,
-  expectedArrivalDate,
-  scheduledArrivalTime,
-  expectedArrivalTime,
-  scheduledDepartureTime,
-  expectedDepartureTime,
-  departure,
-  arrival,
-  flightDurationDelayed
-}) => {
-  const { company, number } = flight;
+const More = () => {
+  const state = useSelector(state => state);
+  const {
+    departure,
+    arrival,
+    company,
+    number,
+    status,
+    isDelayed,
+    scheduledDepartureTime,
+    expectedDepartureTime,
+    flightDurationDelayed,
+    scheduledArrivalTime,
+    expectedArrivalTime,
+    expectedArrivalDate
+  } = state;
 
   return (
     <div className="more">
@@ -24,7 +27,7 @@ const More = ({
           <span className="more__detail">{`${company} ${number}`}</span>
           <span
             className={
-              isDeleyed
+              isDelayed
                 ? "more__flight-status more__flight-status--red"
                 : "more__flight-status"
             }
@@ -39,14 +42,12 @@ const More = ({
               data={departure}
               scheduled={scheduledDepartureTime}
               expected={expectedDepartureTime}
-              isDeleyed={isDeleyed}
             />
             <Clock flightDuration={flightDurationDelayed} />
             <Details
               data={arrival}
               scheduled={scheduledArrivalTime}
               expected={expectedArrivalTime}
-              isDeleyed={isDeleyed}
             />
           </div>
         </div>
