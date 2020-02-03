@@ -1,5 +1,14 @@
 .app {
+  &__numbers {
+    padding: 50px 0;
+    text-align: center;
+  }
+
   &__result {
     margin-bottom: 50px;
+  }
+
+  &__error {
+    text-align: center;
   }
 }

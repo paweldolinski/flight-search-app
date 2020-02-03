@@ -1,46 +1,26 @@
 import React, { useState } from 'react';
+import { useSelector } from "react-redux";
 import { ReactComponent as Btn } from "../../assets/img/button.svg";
 import { ReactComponent as Airplane } from "../../assets/img/airplane.svg";
 import More from "./More.js";
 import Clock from "../clock";
-import {
-  formatDate,
-  formatTime,
-  durationFlight,
-  delayTime,
-  checkIsDeleyed
-} from "../../utils/functions";
 
-const Item = ({ departure, arrival, status, flight }) => {
+const Item = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isDelayed,
+    delayTime,
+    status,
+    scheduledDepartureTime,
+    scheduledDepartureDate,
+    scheduledArrivalTime,
+    departureAirportCode,
+    arrivalAirportCode,
+    flightDuration,
+    company, number } = useSelector(state => state);
 
   const toggleItem = () => {
     setIsOpen(!isOpen)
   }
-
-  const scheduledDepartureDate = formatDate(departure.scheduledDepartureTime);
-  const scheduledDepartureTime = formatTime(departure.scheduledDepartureTime);
-  const expectedDepartureTime = formatTime(departure.expectedDepartureTime);
-  const scheduledArrivalTime = formatTime(arrival.scheduledArrivalTime);
-  const expectedArrivalDate = formatDate(arrival.expectedArrivalTime);
-  const expectedArrivalTime = formatTime(arrival.expectedArrivalTime);
-  const isDeleyed = checkIsDeleyed(
-    departure.scheduledDepartureTime,
-    departure.expectedDepartureTime
-  );
-  const timeDeleyed = delayTime(
-    departure.scheduledDepartureTime,
-    departure.expectedDepartureTime
-  );
-  const flightDuration = durationFlight(
-    departure.scheduledDepartureTime,
-    arrival.scheduledArrivalTime
-  );
-  const flightDurationDelayed = durationFlight(
-    departure.expectedDepartureTime,
-    arrival.expectedArrivalTime
-  );
-  const { company, number } = flight;
 
   return (
     <div className="item">
@@ -52,16 +32,16 @@ const Item = ({ departure, arrival, status, flight }) => {
           </div>
           <div
             className={
-              isDeleyed ? "item__status item__status--delayed" : "item__status"
+              isDelayed ? "item__status item__status--delayed" : "item__status"
             }
           >
-            {status} {isDeleyed ? `(+${timeDeleyed})` : null}
+            {status} {isDelayed ? `(+${delayTime})` : null}
           </div>
         </div>
         <div className="item__col-middle item__col">
           <div className="item__departure">
             <span className="item__time bold">{scheduledDepartureTime}</span>
-            <span className="item__airport-code">{departure.airportCode}</span>
+            <span className="item__airport-code">{departureAirportCode}</span>
           </div>
           <div className="item__flight-duration-wrapper">
             <Clock flightDuration={flightDuration} />
@@ -74,7 +54,7 @@ const Item = ({ departure, arrival, status, flight }) => {
           </div>
           <div className="item__arrive">
             <span className="item__time bold">{scheduledArrivalTime}</span>
-            <span className="item__airport-code">{arrival.airportCode}</span>
+            <span className="item__airport-code">{arrivalAirportCode}</span>
           </div>
         </div>
         <div className="item__col-right item__col">
@@ -89,19 +69,7 @@ const Item = ({ departure, arrival, status, flight }) => {
           isOpen ? "item__more-info item__more-info--open" : "item__more-info"
         }
       >
-        <More
-          flight={flight}
-          isDeleyed={isDeleyed}
-          status={status}
-          scheduledDepartureTime={scheduledDepartureTime}
-          expectedDepartureTime={expectedDepartureTime}
-          expectedArrivalDate={expectedArrivalDate}
-          scheduledArrivalTime={scheduledArrivalTime}
-          expectedArrivalTime={expectedArrivalTime}
-          departure={departure}
-          arrival={arrival}
-          flightDurationDelayed={flightDurationDelayed}
-        />
+        <More />
       </div>
     </div>
   )

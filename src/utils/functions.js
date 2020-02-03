@@ -17,7 +17,7 @@ export const formatTime = date => {
   return `${hour}:${minutes}`;
 };
 
-export const durationFlight = (time1, time2) => {
+export const getDurationFlight = (time1, time2) => {
   let diff = new Date(time2).getTime() - new Date(time1).getTime();
   let minutes = parseInt((diff / (1000 * 60)) % 60);
   let hours = parseInt((diff / (1000 * 60 * 60)) % 24);
@@ -28,7 +28,7 @@ export const durationFlight = (time1, time2) => {
   return `${hours}h ${minutes}`;
 };
 
-export const delayTime = (time1, time2) => {
+export const getDelayTime = (time1, time2) => {
   const diff = new Date(time2).getTime() - new Date(time1).getTime();
   let minutes = parseInt((diff / (1000 * 60)) % 60);
   let hours = parseInt((diff / (1000 * 60 * 60)) % 24);
@@ -52,7 +52,7 @@ export const delayTime = (time1, time2) => {
   }
 };
 
-export const checkIsDeleyed = (time1, time2) => {
+export const checkIsDelayed = (time1, time2) => {
   let diff = new Date(time2).getTime() - new Date(time1).getTime();
 
   return diff > 0 ? true : false;
