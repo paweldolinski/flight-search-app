@@ -1,5 +1,18 @@
 
-## To find flight type one of improvised flight numbers : FR1142 BR1142 BL1042 W62284
+## Flight search project
+
+Application:
+
+- React 16.12.0
+- Redux 4.0.5
+- Node-sass 4.13.1
+
+After entering the flight number, flight is fetched from the json file that I have created for the purpose of this project. Then informations about flight are displayed on the page.
+
+## Install 
+
+Clone this repository and install all dependend packages using yarn.
+
 
 ## Available Scripts
 

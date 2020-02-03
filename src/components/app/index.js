@@ -10,12 +10,14 @@ function App() {
 
   return (
     <div className="app">
-      FR1142 BR1142 BL1042 W62284
+      <div className="app__numbers">
+        Examples of flights numbers: FR1142  BR1142  BL1042  W62284
+        </div>
       <Search />
       <div className="app__result">
         {flight && flight !== "error" && <Item />}
         {flight === "error" ? (
-          <div style={{ textAlign: "center" }}>
+          <div className="app__error">
             Enter the correct flight number.
           </div>
         ) : null}
