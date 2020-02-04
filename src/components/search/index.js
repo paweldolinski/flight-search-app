@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   formatDate,
   formatTime,
@@ -11,12 +11,11 @@ import {
 const SearchForm = () => {
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
+  const error = useSelector(state => state.error)
 
   const onChange = e => setSearch(e.target.value);
 
   const getData = () => {
-    const input = document.querySelector('.search__input');
-
     return dispatch => {
       fetch(`https://raw.githubusercontent.com/ocebeki/flightData/master/data.json`)
         .then(res => res.json())
@@ -24,17 +23,15 @@ const SearchForm = () => {
           const flight = data.find(item => item.flight.number === search)
 
           if (!flight) {
-            input.classList.add('error');
             dispatch({
               type: "FETCH_DATA",
-              flight: 'error'
+              error: true
             })
             return
           }
-
-          input.classList.remove('error');
           dispatch({
             type: "FETCH_DATA",
+            error: false,
             data,
             flight: flight,
             departure: flight.departure,
@@ -70,7 +67,7 @@ const SearchForm = () => {
   return (
     <form onSubmit={onSubmit} className="search">
       <input
-        className="search__input"
+        className={error ? "search__input error" : "search__input"}
         value={search}
         placeholder="Search by flight number"
         onChange={onChange} />

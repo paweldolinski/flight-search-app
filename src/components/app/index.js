@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 
 function App() {
   const flight = useSelector(state => state.flight);
+  const error = useSelector(state => state.error);
 
   return (
     <div className="app">
@@ -15,8 +16,8 @@ function App() {
         </div>
       <Search />
       <div className="app__result">
-        {flight && flight !== "error" && <Item />}
-        {flight === "error" ? (
+        {flight && !error && <Item />}
+        {error ? (
           <div className="app__error">
             Enter the correct flight number.
           </div>
