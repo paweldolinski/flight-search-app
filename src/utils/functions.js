@@ -52,8 +52,4 @@ export const getDelayTime = (time1, time2) => {
   }
 };
 
-export const checkIsDelayed = (time1, time2) => {
-  let diff = new Date(time2).getTime() - new Date(time1).getTime();
-
-  return diff > 0 ? true : false;
-};
+export const checkStatus = status => status === "cancelled" || status === "delayed" ? true : false;

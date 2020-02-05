@@ -1,0 +1,13 @@
+.time {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  &__time {
+    font-size: 20px;
+  }
+
+  &__airport-code {
+    color: $color-secondary;
+  }
+}

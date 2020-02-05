@@ -1,34 +1,31 @@
 import React from "react";
-import { useSelector } from "react-redux";
 
 const Details = ({
   data,
+  status,
   scheduled,
   expected,
 }) => {
-  const state = useSelector(state => state);
-  const { isDelayed } = state
-  const {
-    airportCode,
-    airport,
-    terminal,
-    BaggageBelt } = data;
+  const { terminal, gate, airport, iata, baggage } = data
 
   return (
     <div className="details">
       <span
-        className={isDelayed ? "details__time details__time--delayed " : "details__time"}
+        className={status ? "details__time details__time--delayed " : "details__time"}
       >
         {scheduled}
       </span>
-      {isDelayed && <span className="details__row">{expected}</span>}
-      <span className="details__row">{airportCode}</span>
+      {status && <span className="details__row">{expected}</span>}
+      <span className="details__row">{iata}</span>
       <span className="details__row">{airport}</span>
       {terminal &&
         <span className="details__row">Terminal: {terminal}</span>
       }
-      {BaggageBelt &&
-        <span>Baggage belt: {BaggageBelt} </span>
+      {gate &&
+        <span className="details__row">Gate: {terminal}</span>
+      }
+      {baggage &&
+        <span>Baggage belt: {baggage} </span>
       }
     </div>
   );

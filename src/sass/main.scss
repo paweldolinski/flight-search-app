@@ -2,8 +2,10 @@
 @import './base.scss';
 
 @import '../components/app/app';
-@import '../components//search/search';
+@import '../components/search/search';
 @import'../components/item/item';
-@import '../components//item/more';
+@import '../components/item/time';
+@import '../components/item/more';
 @import '../components/item/details';
 @import '../components/clock/clock';
+@import '../components/loading/loading';
