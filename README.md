@@ -7,7 +7,7 @@ Application:
 - Redux 4.0.5
 - Node-sass 4.13.1
 
-After entering the flight number, flight is fetched from the json file that I have created for the purpose of this project. Then informations about flight are displayed on the page.
+After entering the flight number, flight is fetched from the https://aviationstack.com/documentation API. Then informations about flight are displayed on the page.
 
 ## Install 
 

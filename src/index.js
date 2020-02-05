@@ -9,6 +9,5 @@ import flightReducer from './reducer/flightReducer';
 
 const store = createStore(flightReducer, applyMiddleware(thunk))
 
-
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 

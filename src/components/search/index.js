@@ -1,69 +1,57 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import {
-  formatDate,
-  formatTime,
-  getDurationFlight,
-  checkIsDelayed,
-  getDelayTime,
-} from "../../utils/functions";
+import axios from 'axios';
 
 const SearchForm = () => {
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
-  const error = useSelector(state => state.error)
+  const error = useSelector(state => state.error);
 
-  const onChange = e => setSearch(e.target.value);
+  const onChange = e => {
+    const newValue = e.target.value.replace(/\s+/g, '').toUpperCase();
+    setSearch(newValue);
+  }
 
   const getData = () => {
-    return dispatch => {
-      fetch(`https://raw.githubusercontent.com/ocebeki/flightData/master/data.json`)
-        .then(res => res.json())
-        .then(data => {
-          const flight = data.find(item => item.flight.number === search)
+    dispatch({
+      type: "FETCH_DATA",
+      isLoading: true
+    })
 
-          if (!flight) {
-            dispatch({
-              type: "FETCH_DATA",
-              error: true
-            })
-            return
-          }
+    const params = {
+      access_key: '281ecb94930c5900c6c917e1a018114a',
+      flight_iata: search,
+    }
+
+    axios.get(`http://api.aviationstack.com/v1/flights`, { params })
+      .then(response => {
+        const flights = response.data.data;
+        if (flights.length === 0) {
           dispatch({
             type: "FETCH_DATA",
-            error: false,
-            data,
-            flight: flight,
-            departure: flight.departure,
-            arrival: flight.arrival,
-            company: flight.flight.company,
-            number: flight.flight.number,
-            isDelayed: checkIsDelayed(flight.departure.scheduledDepartureTime, flight.departure.expectedDepartureTime),
-            status: flight.status,
-            departureAirportCode: flight.departure.airportCode,
-            depertueAirport: flight.departure.airport,
-            scheduledDepartureDate: formatDate(flight.departure.scheduledDepartureTime),
-            scheduledDepartureTime: formatTime(flight.departure.scheduledDepartureTime),
-            expectedDepartureTime: formatTime(flight.departure.expectedDepartureTime),
-            expectedDepartureDate: formatDate(flight.departure.expectedDepartureTime),
-            arrivalAirportCode: flight.arrival.airportCode,
-            arrivalAirport: flight.arrival.airport,
-            scheduledArrivalDate: formatDate(flight.arrival.scheduledArrivalTime),
-            scheduledArrivalTime: formatTime(flight.arrival.scheduledArrivalTime),
-            expectedArrivalDate: formatDate(flight.arrival.expectedArrivalTime),
-            expectedArrivalTime: formatTime(flight.arrival.expectedArrivalTime),
-            flightDuration: getDurationFlight(flight.departure.scheduledDepartureTime, flight.arrival.scheduledArrivalTime),
-            flightDurationDelayed: getDurationFlight(flight.departure.expectedDepartureTime, flight.arrival.expectedArrivalTime),
-            delayTime: getDelayTime(flight.departure.scheduledDepartureTime, flight.departure.expectedDepartureTime),
+            error: true,
+            isLoading: false
           })
+          return;
+        }
+
+        dispatch({
+          type: "FETCH_DATA",
+          error: false,
+          flights,
+          isLoading: false
         })
-    }
+      }).catch(error => {
+        console.log(error);
+      })
   }
 
   const onSubmit = e => {
     e.preventDefault();
-    dispatch(getData())
+    if (!search) return
+    getData();
   }
+
   return (
     <form onSubmit={onSubmit} className="search">
       <input
@@ -75,5 +63,4 @@ const SearchForm = () => {
     </form>
   )
 }
-
 export default SearchForm;

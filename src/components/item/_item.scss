@@ -1,6 +1,24 @@
 .item {
   max-width: 720px;
-  margin: auto;
+  margin: 35px auto;
+
+  &--delayed {
+    .item__status {
+      color: $color-danger;
+    }
+  }
+
+  &--cancelled {
+    cursor: not-allowed;
+
+    .item__status {
+      color: $color-danger;
+    }
+
+    .item__btn {
+      z-index: -1;
+    }
+  }
 
   @media screen and (max-width:760px) {
     max-width: 500px;
@@ -42,27 +60,8 @@
     }
   }
 
-  &__departure,
-  &__arrive {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
-
-  &__time {
-    font-size: 20px;
-  }
-
-  &__airport-code {
-    color: $color-secondary;
-  }
-
   &__status {
     color: $color-succes;
-
-    &--delayed {
-      color: $color-danger;
-    }
   }
 
   &__flight-duration-wrapper {
