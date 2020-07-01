@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/flight-search-app/static/css/main.d656f6e1.chunk.css",
+    "main.js": "/flight-search-app/static/js/main.55000a39.chunk.js",
+    "main.js.map": "/flight-search-app/static/js/main.55000a39.chunk.js.map",
+    "runtime-main.js": "/flight-search-app/static/js/runtime-main.5a7e9639.js",
+    "runtime-main.js.map": "/flight-search-app/static/js/runtime-main.5a7e9639.js.map",
+    "static/js/2.07ae15ff.chunk.js": "/flight-search-app/static/js/2.07ae15ff.chunk.js",
+    "static/js/2.07ae15ff.chunk.js.map": "/flight-search-app/static/js/2.07ae15ff.chunk.js.map",
+    "index.html": "/flight-search-app/index.html",
+    "precache-manifest.503ccdd11e9087e2bbf454cb27e96759.js": "/flight-search-app/precache-manifest.503ccdd11e9087e2bbf454cb27e96759.js",
+    "service-worker.js": "/flight-search-app/service-worker.js",
+    "static/css/main.d656f6e1.chunk.css.map": "/flight-search-app/static/css/main.d656f6e1.chunk.css.map",
+    "static/js/2.07ae15ff.chunk.js.LICENSE.txt": "/flight-search-app/static/js/2.07ae15ff.chunk.js.LICENSE.txt",
+    "static/media/airplane.17756d2d.svg": "/flight-search-app/static/media/airplane.17756d2d.svg",
+    "static/media/button.ce9083e7.svg": "/flight-search-app/static/media/button.ce9083e7.svg",
+    "static/media/clock.svg": "/flight-search-app/static/media/clock.06412bd8.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5a7e9639.js",
+    "static/js/2.07ae15ff.chunk.js",
+    "static/css/main.d656f6e1.chunk.css",
+    "static/js/main.55000a39.chunk.js"
+  ]
+}
